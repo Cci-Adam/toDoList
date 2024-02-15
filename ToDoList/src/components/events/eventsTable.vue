@@ -8,6 +8,7 @@ export default {
         return {
             events: [],
             sort : -1,
+            importanceTab: ["Pas Important","Peu Important","Important","Très Important","Urgent"],
         }
     },
     mounted() {
@@ -34,6 +35,16 @@ export default {
                 this.sort = 1
                 this.events = this.events.sort((a, b) => (new Date(b.date) - new Date(a.date)))
             }
+        },
+        sortEventsByImportance() {
+            if (this.sort != 2) {
+                this.sort = 2
+                this.events = this.events.sort((a, b) => (a.importance - b.importance))
+            }
+            else if (this.sort != 3) {
+                this.sort = 3
+                this.events = this.events.sort((a, b) => (b.importance - a.importance))
+            }
         }
     }
 }
@@ -46,7 +57,7 @@ export default {
             <th scope="col">Nom</th>
             <th scope="col">Lieu</th>
             <th scope="col" @click="sortEventsByDate()">{{this.sort == 0 ? 'Date ⇩' : this.sort == 1 ? 'Date ⇧' : 'Date'}}</th>
-            <th scope="col">Importance</th>
+            <th scope="col" @click="sortEventsByImportance()">{{this.sort == 2 ? 'Importance ⇩' : this.sort == 3 ? 'Importance ⇧' : 'Importance'}}</th>
             <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -55,7 +66,7 @@ export default {
                 <th scope="row">{{ event.nom }}</th>
                 <td>{{ event.lieu }}</td>
                 <td>{{ event.date }}</td>
-                <td>{{ event.importance }}</td>
+                <td>{{ this.importanceTab[event.importance] }}</td>
                 <td>
                     <button class="btn btn-warning" @click="setEventToEdit(event)">Modifier</button>
                     <button class="btn btn-danger" @click="deleteEvent(event.id)">Supprimer</button>

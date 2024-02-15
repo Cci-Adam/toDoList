@@ -83,11 +83,11 @@ export default {
                 <label for="importance" class="form-label">Importance</label>
                 <select class="form-select" id="importance" v-model="importance" required>
                     <option selected disabled value="">Choose...</option>
-                    <option value="Pas important">Pas important</option>
-                    <option value="Peu important">Peu important</option>
-                    <option value="Important">Important</option>
-                    <option value="Très important">Très important</option>
-                    <option value="Urgent">Urgent</option>
+                    <option value="0">Pas important</option>
+                    <option value="1">Peu important</option>
+                    <option value="2">Important</option>
+                    <option value="3">Très important</option>
+                    <option value="4">Urgent</option>
                 </select>
             </div>
             <div class="col-12">

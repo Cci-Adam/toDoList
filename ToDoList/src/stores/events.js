@@ -13,11 +13,13 @@ const getCurrentState = () => {
 export const useEventsStore = defineStore(STORE_NAME, {
   state: () => {
     return {
-      events: getCurrentState()
+      events: getCurrentState(),
+      eventToEdit: null,
     }
   },
   getters: {
-    getEvents: (state) => state.events
+    getEvents: (state) => state.events,
+    getEventToEdit: (state) => state.eventToEdit,
   },
   actions: {
     updateLocaleStorage() {
@@ -29,8 +31,18 @@ export const useEventsStore = defineStore(STORE_NAME, {
     },
     deleteEvent(id) {
       this.events = this.events.filter(event => event.id !== id)
+      console.log(this.events)
       this.updateLocaleStorage()
     },
-    
+    setEventToEdit(event) {
+      console.log(event)
+      this.eventToEdit = event
+    },
+    editEvent(event) {
+      const index = this.events.findIndex(e => e.id === event.id)
+      this.events[index] = event
+      this.eventToEdit = null
+      this.updateLocaleStorage()
+    }
   }
 })

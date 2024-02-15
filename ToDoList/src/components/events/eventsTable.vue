@@ -13,12 +13,18 @@ export default {
     mounted() {
         this.events = this.getEvents
     },
+    watch: {
+        getEvents() {
+            console.log("xe")
+            this.events = this.getEvents
+        }
+    },
     computed: {
         ...mapState(useEventsStore, ['getEvents']),
         
     },
     methods: {
-        ...mapActions(useEventsStore, ['deleteEvent']),
+        ...mapActions(useEventsStore, ['deleteEvent','setEventToEdit']),
         sortEventsByDate() {
             if (this.sort != 0) {
                 this.sort = 0
@@ -39,7 +45,7 @@ export default {
             <tr>
             <th scope="col">Nom</th>
             <th scope="col">Lieu</th>
-            <th scope="col" @click="sortEventsByDate()">Date</th>
+            <th scope="col" @click="sortEventsByDate()">{{this.sort == 0 ? 'Date ⇩' : this.sort == 1 ? 'Date ⇧' : 'Date'}}</th>
             <th scope="col">Importance</th>
             <th scope="col">Actions</th>
             </tr>
@@ -51,6 +57,7 @@ export default {
                 <td>{{ event.date }}</td>
                 <td>{{ event.importance }}</td>
                 <td>
+                    <button class="btn btn-warning" @click="setEventToEdit(event)">Modifier</button>
                     <button class="btn btn-danger" @click="deleteEvent(event.id)">Supprimer</button>
                 </td>
             </tr>

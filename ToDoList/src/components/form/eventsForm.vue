@@ -1,5 +1,5 @@
 <script>
-import {mapActions} from 'pinia'
+import {mapActions, mapState} from 'pinia'
 import {useEventsStore} from '../../stores/events'
 
 export default {
@@ -12,19 +12,53 @@ export default {
             importance: ''
         }
     },
+    watch : {
+        getEventToEdit() {
+            if (this.getEventToEdit != null) {
+
+                this.nom = this.getEventToEdit.nom
+                this.lieu = this.getEventToEdit.lieu
+                this.date = this.getEventToEdit.date
+                this.importance = this.getEventToEdit.importance
+                console.log(this.getEventToEdit)
+            }
+        }
+    },
+    computed : {
+        ...mapState(useEventsStore, ['getEventToEdit']),
+    },
     methods: {
         submitForm() {
             console.log(this.date)
-            const event = {
-                id: Date.now()*Math.random(),
+            if(this.getEventToEdit){
+                const event = {
+                    id: this.getEventToEdit.id,
+                    nom: this.nom,
+                    lieu: this.lieu,
+                    date: this.date,
+                    importance: this.importance
+                }
+                this.editEvent(event)
+            }
+            else{
+                const event = {
+                id: Math.floor(Date.now()*Math.random()),
                 nom: this.nom,
                 lieu: this.lieu,
                 date: this.date,
                 importance: this.importance
             }
             this.addEvent(event)
+            }
         },
-        ...mapActions(useEventsStore, ['addEvent']),
+        resetForm(){
+            this.nom = '',
+            this.lieu = '',
+            this.date = '',
+            this.importance = ''
+            this.setEventToEdit(null)
+        },
+        ...mapActions(useEventsStore, ['addEvent', 'editEvent','setEventToEdit']),
     }
 }
 </script>
@@ -45,7 +79,7 @@ export default {
                 <label for="lieu" class="form-label">Lieu</label>
                 <input type="text" class="form-control" id="lieu" v-model="lieu" required>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <label for="importance" class="form-label">Importance</label>
                 <select class="form-select" id="importance" v-model="importance" required>
                     <option selected disabled value="">Choose...</option>
@@ -57,7 +91,8 @@ export default {
                 </select>
             </div>
             <div class="col-12">
-                <button class="btn btn-primary" type="submit">Submit form</button>
+                <button class="btn btn-primary" type="submit">{{ getEventToEdit ? 'Modifier' : 'Créer Evenement'}}</button>
+                <button class="btn btn-secondary" type="button" @click="resetForm">{{getEventToEdit ? 'Annuler' : 'Reinitialiser'}}</button>
             </div>
         </form>
     </div>

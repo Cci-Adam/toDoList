@@ -56,8 +56,8 @@ export default {
             <tr>
             <th scope="col">Nom</th>
             <th scope="col">Lieu</th>
-            <th scope="col" @click="sortEventsByDate()">{{this.sort == 0 ? 'Date ⇩' : this.sort == 1 ? 'Date ⇧' : 'Date'}}</th>
-            <th scope="col" @click="sortEventsByImportance()">{{this.sort == 2 ? 'Importance ⇩' : this.sort == 3 ? 'Importance ⇧' : 'Importance'}}</th>
+            <th scope="col" @click="sortEventsByDate()">{{this.sort == 0 ? 'Date ⇩' : this.sort == 1 ? 'Date ⇧' : 'Date ⇳'}}</th>
+            <th scope="col" @click="sortEventsByImportance()">{{this.sort == 2 ? 'Importance ⇩' : this.sort == 3 ? 'Importance ⇧' : 'Importance ⇳'}}</th>
             <th scope="col">Actions</th>
             </tr>
         </thead>

@@ -1,10 +1,11 @@
 
 import { defineStore } from 'pinia'
+import events from '../data/events.json'
 
 const STORE_NAME = 'events'
 const STORE_LOCALE_STORAGE_KEY = 'events'
 
-const getDefaultState = () => []
+const getDefaultState = () => events
 const getCurrentState = () => {
     const localeData = localStorage.getItem(STORE_LOCALE_STORAGE_KEY)
     return localeData ? JSON.parse(localeData) : getDefaultState()

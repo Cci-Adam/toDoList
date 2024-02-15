@@ -1,6 +1,7 @@
 <script>
 import {mapState, mapActions} from 'pinia'
 import {useEventsStore} from '../../stores/events'
+import toDo from './toDo.vue'
 
 export default {
     name: 'eventsTable',
@@ -8,8 +9,10 @@ export default {
         return {
             events: [],
             sort : -1,
-            importanceTab: ["Pas Important","Peu Important","Important","Très Important","Urgent"],
         }
+    },
+    components: {
+        toDo
     },
     mounted() {
         this.events = this.getEvents
@@ -63,14 +66,7 @@ export default {
         </thead>
         <tbody>
             <tr v-for="event in this.events" :key="event.id">
-                <th scope="row">{{ event.nom }}</th>
-                <td>{{ event.lieu }}</td>
-                <td>{{ event.date }}</td>
-                <td>{{ this.importanceTab[event.importance] }}</td>
-                <td>
-                    <button class="btn btn-warning" @click="setEventToEdit(event)">Modifier</button>
-                    <button class="btn btn-danger" @click="deleteEvent(event.id)">Supprimer</button>
-                </td>
+                <toDo :event="event"/>
             </tr>
         </tbody>
     </table>
